@@ -1,0 +1,20 @@
+{
+  "name": "rings-handshake-example",
+  "version": "1.0.0",
+  "description": "Demo of rings handshake and ping pong in browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "rings",
+    "p2p"
+  ],
+  "author": "Rings Network Dev Team",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "ethers": "^6.7.1",
+    "rings-node": "https://github.com/RingsNetwork/rings-node/releases/download/v0.2.7/rings-v0.2.7-wasm32-unknown-unknown.tgz",
+    "secp256k1": "^5.0.0"
+  }
+}

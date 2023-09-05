@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rings Network: Handshake example</title>
+    <style>
+      div { padding: 0.2rem; }
+      iframe {
+      width: 30rem;
+      height: 10rem;
+      }
+
+      #instance {
+        width: 100rem;
+      }
+      #code {
+      fload left;
+      width: 40rem;
+      }
+      #node_content {
+      background-color: black; color: white; width: 40rem; height: 50rem; font-size: 0.8rem;
+      }
+      #controller {
+      height: 2rem;
+      width: 10rem;
+      }
+      .container {
+      display: flex;
+      justify-content: space-between;
+      }
+
+      @media (max-width: 600px) {
+      .container {
+      flex-direction: column;
+      }
+      }
+    </style>
+</head>
+<body>
+<div class="container">
+  <div id="controller">
+    <button onclick="createIframe()">Create a new node</button>
+  </div>
+  <div id="code">
+    <textarea id="node_content">
+<div>
+  Rings Node Instance:
+  <p>
+    <span>Rings DID:: </span>
+    <span id="did"></span>
+  </p>
+  <p id="status">
+  </p>
+  <p id="handshake">
+  <button onclick="create_offer()">Create Offer SDP</button>
+  <button onclick="accept_offer()">Accept Offer SDP and Create answer SDP</button>
+  <button onclick="accept_answer()">Accept Answer SDP</button>
+  <button onclick="connect()">connect</button><input id="connet_did" placeholder=some did />
+  </p>
+  <p>
+  <p id="sdp" contenteditable=true>put your SDP here</p>
+  </p>
+</div>
+
+
+<script type="module">
+import init, { debug, Client, MessageCallbackInstance } from './node_modules/rings-node/rings_node.js';
+import { Wallet } from "./node_modules/ethers/dist/ethers.js"
+
+// Init wasm module
+await init();
+
+// message callback
+const callback = new MessageCallbackInstance(
+  async (from, message) => {
+    console.log("get custom message")
+  },
+  async (from, message) => {
+    console.log("get http response message")
+  },
+  async (from, message) => {
+    console.log("get buildin message")
+  }
+)
+
+// prepare keypair
+const account = Wallet.createRandom();
+document.getElementById("did").innerText = account.address;
+
+// signer
+// Utility function to convert hex string to Uint8Array
+function hexToUint8Array(hexString) {
+    // Remove the "0x" prefix if it exists
+    if (hexString.startsWith('0x')) {
+        hexString = hexString.slice(2);
+    }
+    const byteArray = [];
+    for (let i = 0; i < hexString.length; i+=2) {
+        byteArray.push(parseInt(hexString.substr(i, 2), 16));
+    }
+    return new Uint8Array(byteArray);
+}
+
+
+let signer = async (proof) => {
+  let sig = await account.signMessage(proof);
+  return hexToUint8Array(sig)
+}
+
+debug(true)
+
+// create client
+let client = await new Client(
+  "stun://stun.l.google.com:19302",
+  100, // stab timeout
+  account.address, // account
+  "eip191", // account type
+  signer,
+  callback
+)
+console.log(client)
+
+</script>
+    </textarea>
+  </div>
+  <div id="instance">
+  </div>
+<div class="container">
+  <script>
+    function createIframe() {
+      const container = document.createElement("div");
+      container.className = "iframeContainer";
+      document.getElementById("instance").appendChild(container);
+
+      const iframe = document.createElement("iframe");
+      container.appendChild(iframe);
+
+      const iframeDoc = iframe.contentWindow.document;
+      let preElement = document.getElementById('node_content');
+      let content = preElement.textContent || preElement.innerText;
+      console.log(content)
+
+      iframeDoc.open();
+      iframeDoc.write(content);
+      iframeDoc.close();
+    }
+    </script>
+
+
+</body>
+</html>
