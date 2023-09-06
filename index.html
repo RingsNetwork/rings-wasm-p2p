@@ -81,7 +81,7 @@
       onclick="start();window.client.request('listPeers', []).then((ret)=>{document.getElementById('output').innerText=ret.result;done()})"
       >list peers</button>
     <button
-      onclick="start();window.client.request('nodeInfo', []).then((ret)=>{document.getElementById('output').innerText=JSON.stringify(Array.from(ret.result));done()})"
+      onclick="start();window.client.request('nodeInfo', []).then((ret)=>{console.log(ret);done()})"
       >node info</button>
     <button
       onclick="start();window.client.request('sendSimpleText', document.getElementById('input').innerText.split(';')).then((ret)=>{document.getElementById('output').innerText=res.result;done()})"
