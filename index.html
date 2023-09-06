@@ -8,7 +8,7 @@
       div { padding: 0.2rem; }
       iframe {
       width: 30rem;
-      height: 10rem;
+      height: 20rem;
       }
 
       #instance {
@@ -50,17 +50,35 @@
     <span>Rings DID:: </span>
     <span id="did"></span>
   </p>
-  <p id="status">
+  <p id="loading" style="color:red;visibility: hidden;">
+    executing
   </p>
+  <script>
+    function start() {
+      document.getElementById("loading").style.visibility="visible";
+    }
+
+    function done() {
+      document.getElementById("loading").style.visibility="hidden";
+    }
+  </script>
   <p id="handshake">
-  <button onclick="create_offer()">Create Offer SDP</button>
-  <button onclick="accept_offer()">Accept Offer SDP and Create answer SDP</button>
-  <button onclick="accept_answer()">Accept Answer SDP</button>
-  <button onclick="connect()">connect</button><input id="connet_did" placeholder=some did />
+    <button
+      onclick="start();window.client.request('createOffer', []).then((res) => { document.getElementById('output').innerText=res.result;done()})">Create Offer SDP</button>
+    <button
+      onclick="start();window.client.request('answerOffer', [getElementById('input').innerText]).then((res)=>{document.getElementById('output').innerText=res.result;done()})">Accept Offer SDP and Create answer SDP</button>
+    <button
+      onclick="start();window.client.request('acceptAnswer', [getElementById('input').innerText]).then((res)=>{console.log(res.result);done()})">Accept Answer SDP</button>
+    <button
+      onclick="start();window.client.request('ConnectWithDid', [document.getElementById('input').innerText]).then((ret)=>{console.log(ret.result);done()})">connect</button>
   </p>
   <p>
-  <p id="sdp" contenteditable=true>put your SDP here</p>
+    <span>input</span>
+    <p id="input" style="font-size:0.80rem;height:2.5rem; background-color:#eee; overflow:scroll;" contenteditable=true></p>
+    <span>output</span>
+    <p id="output" style="font-size:0.80rem;height:2.5rem; background-color:#eee; overflow:scroll; word-wrap: break-word;"></p>
   </p>
+  <p>
 </div>
 
 
@@ -111,7 +129,7 @@ let signer = async (proof) => {
 debug(true)
 
 // create client
-let client = await new Client(
+window.client = await new Client(
   "stun://stun.l.google.com:19302",
   100, // stab timeout
   account.address, // account
@@ -119,7 +137,7 @@ let client = await new Client(
   signer,
   callback
 )
-console.log(client)
+console.log(client);
 
 </script>
     </textarea>
