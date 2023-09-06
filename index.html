@@ -40,7 +40,9 @@
 <body>
 <div class="container">
   <div id="controller">
-    <button onclick="createIframe()">Create a new node</button>
+    <button onclick="createIframe()">Create new node</button>
+    <button onclick="createIframe();createIframe();">Create two new nodes</button>
+    <button onclick="createIframe();createIframe();createIframe()">Create three new nodes</button>
   </div>
   <div id="code">
     <textarea id="node_content">
@@ -64,13 +66,26 @@
   </script>
   <p id="handshake">
     <button
-      onclick="start();window.client.request('createOffer', []).then((res) => { document.getElementById('output').innerText=res.result;done()})">Create Offer SDP</button>
+      onclick="start();window.client.request('createOffer', []).then((res) => { document.getElementById('output').innerText=res.result;done()})"
+      >Create Offer SDP</button>
     <button
-      onclick="start();window.client.request('answerOffer', [getElementById('input').innerText]).then((res)=>{document.getElementById('output').innerText=res.result;done()})">Accept Offer SDP and Create answer SDP</button>
+      onclick="start();window.client.request('answerOffer', [getElementById('input').innerText]).then((res)=>{document.getElementById('output').innerText=res.result;done()})"
+      >Accept Offer [SDP] and Create answer SDP</button>
     <button
-      onclick="start();window.client.request('acceptAnswer', [getElementById('input').innerText]).then((res)=>{console.log(res.result);done()})">Accept Answer SDP</button>
+      onclick="start();window.client.request('acceptAnswer', [getElementById('input').innerText]).then((res)=>{console.log(res);done()})"
+      >Accept Answer [SDP]</button>
     <button
-      onclick="start();window.client.request('ConnectWithDid', [document.getElementById('input').innerText]).then((ret)=>{console.log(ret.result);done()})">connect</button>
+      onclick="start();window.client.request('connectWithDid', [document.getElementById('input').innerText]).then((ret)=>{console.log(ret);done()})"
+      >connect with [DID]</button>
+    <button
+      onclick="start();window.client.request('listPeers', []).then((ret)=>{document.getElementById('output').innerText=ret.result;done()})"
+      >list peers</button>
+    <button
+      onclick="start();window.client.request('nodeInfo', []).then((ret)=>{document.getElementById('output').innerText=JSON.stringify(Array.from(ret.result));done()})"
+      >node info</button>
+    <button
+      onclick="start();window.client.request('sendSimpleText', document.getElementById('input').innerText.split(';')).then((ret)=>{document.getElementById('output').innerText=res.result;done()})"
+      >send message to [DID; MSG]</button>
   </p>
   <p>
     <span>input</span>
