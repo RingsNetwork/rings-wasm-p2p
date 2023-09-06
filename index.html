@@ -8,7 +8,7 @@
       div { padding: 0.2rem; }
       iframe {
       width: 30rem;
-      height: 20rem;
+      height: 25rem;
       }
 
       #instance {
@@ -78,13 +78,13 @@
       onclick="start();window.client.request('connectWithDid', [document.getElementById('input').innerText]).then((ret)=>{console.log(ret);done()})"
       >connect with [DID]</button>
     <button
-      onclick="start();window.client.request('listPeers', []).then((ret)=>{document.getElementById('output').innerText=ret.result;done()})"
+      onclick="start();window.client.request('listPeers', []).then((ret)=>{console.log(ret.result);done()})"
       >list peers</button>
     <button
-      onclick="start();window.client.request('nodeInfo', []).then((ret)=>{console.log(ret);done()})"
+      onclick="start();window.client.request('nodeInfo', []).then((ret)=>{console.log(ret.result);done()})"
       >node info</button>
     <button
-      onclick="start();window.client.request('sendSimpleText', document.getElementById('input').innerText.split(';')).then((ret)=>{document.getElementById('output').innerText=res.result;done()})"
+      onclick="start();window.client.request('sendSimpleText', document.getElementById('input').innerText.split(';')).then((ret)=>{document.getElementById('output').innerText=ret.result;done()})"
       >send message to [DID; MSG]</button>
   </p>
   <p>
@@ -107,13 +107,13 @@ await init();
 // message callback
 const callback = new MessageCallbackInstance(
   async (from, message) => {
-    console.log("get custom message")
+    console.log("get custom message %s from %s", message, from)
   },
   async (from, message) => {
-    console.log("get http response message")
+    console.log("get http response message %s from %s", message, from)
   },
   async (from, message) => {
-    console.log("get buildin message")
+    console.log("get buildin message %s from %s", message, from)
   }
 )
 
@@ -152,6 +152,7 @@ window.client = await new Client(
   signer,
   callback
 )
+await window.client.listen();
 console.log(client);
 
 </script>
