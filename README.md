@@ -10,3 +10,5 @@ WASM based P2P (browser oriented)
 # TL;DR
 
 This example shows how rings network works in wasm and browser envirement.
+
+https://rings.rs/rings-wasm-p2p/
