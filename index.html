@@ -66,7 +66,7 @@
   </script>
   <p id="handshake">
     <button
-      onclick="start();window.client.request('createOffer', []).then((res) => { document.getElementById('output').innerText=res.result;done()})"
+      onclick="start();window.client.request('createOffer', [document.getElementById('input').innerText]).then((res) => { document.getElementById('output').innerText=res.result;done()})"
       >Create Offer SDP</button>
     <button
       onclick="start();window.client.request('answerOffer', [getElementById('input').innerText]).then((res)=>{document.getElementById('output').innerText=res.result;done()})"

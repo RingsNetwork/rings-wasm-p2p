@@ -14,7 +14,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "ethers": "^6.7.1",
-    "rings-node": "https://github.com/RingsNetwork/rings-node/releases/download/v0.2.7/rings-v0.2.7-wasm32-unknown-unknown.tgz",
+    "rings-node": "https://github.com/RingsNetwork/rings-node/releases/download/v0.3.0/rings-v0.3.0-wasm32-unknown-unknown.tgz",
     "secp256k1": "^5.0.0"
   }
 }
