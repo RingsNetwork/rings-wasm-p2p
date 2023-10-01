@@ -9,9 +9,9 @@ An Example of WASM based P2P (browser oriented)
 
 # TL;DR
 
-This example shows how rings network works in wasm and browser envirement.
+This example shows how rings network (https://github.com/RingsNetwork/rings-node) works with wasm in browser envirement. In the example, you can create arbitrary nodes, and connect them together by manually SDP handshaking or by relay handshaking.
 
-This example is using Rings-node v0.3.0
+This example is using Rings-node v0.3.0, you can visit it via:
 
 https://rings.rs/rings-wasm-p2p/
 
