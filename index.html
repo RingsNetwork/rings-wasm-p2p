@@ -69,10 +69,10 @@
   </script>
   <p id="handshake">
     <button
-      onclick="start();window.client.request('createOffer', [document.getElementById('input').innerText]).then((res) => { document.getElementById('output').innerText=res.result;done()})"
+      onclick="start();window.client.request('createOffer', [document.getElementById('input').innerText]).then((res) => { console.log(res);document.getElementById('output').innerText=res.offer;done()})"
       >Create Offer SDP</button>
     <button
-      onclick="start();window.client.request('answerOffer', [getElementById('input').innerText]).then((res)=>{document.getElementById('output').innerText=res.result;done()})"
+      onclick="start();window.client.request('answerOffer', [getElementById('input').innerText]).then((res)=>{console.log(res);document.getElementById('output').innerText=res.answer;done()})"
       >Accept Offer [SDP] and Create answer SDP</button>
     <button
       onclick="start();window.client.request('acceptAnswer', [getElementById('input').innerText]).then((res)=>{console.log(res);done()})"
@@ -101,14 +101,14 @@
 
 
 <script type="module">
-import init, { debug, Client, MessageCallbackInstance } from './node_modules/rings-node/rings_node.js';
+import init, { debug, Provider, BackendBehaviour } from './node_modules/rings-node/dist/rings_node.js';
 import { Wallet } from "./node_modules/ethers/dist/ethers.js"
 
 // Init wasm module
 await init();
 
 // message callback
-const callback = new MessageCallbackInstance(
+const callback = new BackendBehaviour(
   async (from, message) => {
     console.log("get custom message %s from %s", message, from)
   },
@@ -147,9 +147,9 @@ let signer = async (proof) => {
 debug(true)
 
 // create client
-window.client = await new Client(
+window.client = await new Provider(
   "stun://stun.l.google.com:19302",
-  100, // stab timeout
+  100n, // stab timeout
   account.address, // account
   "eip191", // account type
   signer,
