@@ -69,10 +69,10 @@
   </script>
   <p id="handshake">
     <button
-      onclick="start();window.client.request('createOffer', [document.getElementById('input').innerText]).then((res) => { document.getElementById('output').innerText=res;done()})"
+      onclick="start();window.client.request('createOffer', [document.getElementById('input').innerText]).then((res) => { console.log(res);document.getElementById('output').innerText=res.offer;done()})"
       >Create Offer SDP</button>
     <button
-      onclick="start();window.client.request('answerOffer', [getElementById('input').innerText]).then((res)=>{document.getElementById('output').innerText=res;done()})"
+      onclick="start();window.client.request('answerOffer', [getElementById('input').innerText]).then((res)=>{console.log(res);document.getElementById('output').innerText=res.answer;done()})"
       >Accept Offer [SDP] and Create answer SDP</button>
     <button
       onclick="start();window.client.request('acceptAnswer', [getElementById('input').innerText]).then((res)=>{console.log(res);done()})"
